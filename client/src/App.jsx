@@ -14,6 +14,8 @@ import Orders from "./pages/Orders/Orders";
 import Account from "./pages/Account/Account";
 
 import HelpButton from "./components/HelpButton/HelpButton";
+import Footer from "./components/Footer/Footer";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -57,11 +59,21 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/checkout" element={<Checkout />} />
+
+        <Route
+          path="/checkout"
+          element={
+            <ProtectedRoute>
+              <Checkout />
+            </ProtectedRoute>
+          }
+        />
+
         <Route path="/orders" element={<Orders />} />
         <Route path="/account" element={<Account />} />
       </Routes>
 
+      <Footer />
       <HelpButton />
     </>
   );

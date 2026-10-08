@@ -1,10 +1,18 @@
-import { useState } from "react";
+
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import Navbar from "../../components/Navbar";
+import { loginUser, clearAuthError } from "../../redux/authSlice";
+
 import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { loading, error } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -12,7 +20,10 @@ function Login() {
   });
 
   const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    dispatch(clearAuthError());
+  }, [dispatch]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -27,48 +38,19 @@ function Login() {
     event.preventDefault();
 
     setMessage("");
-    setLoading(true);
+    dispatch(clearAuthError());
 
     try {
-      const response = await fetch("http://127.0.0.1:8000/auth/login/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(
-          data.error || data.detail || "Invalid username or password.",
-        );
-        return;
-      }
-
-      const token = data.token || data.access || data.access_token;
-
-      if (!token) {
-        console.error("Login response:", data);
-        setMessage("Login succeeded, but token was not received.");
-        return;
-      }
-
-      localStorage.setItem("token", token);
-      localStorage.setItem("username", formData.username);
-
-      window.dispatchEvent(new Event("authUpdated"));
+      await dispatch(loginUser(formData)).unwrap();
 
       setMessage("Login successful.");
-
       navigate("/");
-    } catch (error) {
-      console.error("Login error:", error);
-
-      setMessage("Unable to login. Please try again.");
-    } finally {
-      setLoading(false);
+    } catch (errorMessage) {
+      setMessage(
+        typeof errorMessage === "string"
+          ? errorMessage
+          : "Unable to login. Please try again."
+      );
     }
   };
 
@@ -115,16 +97,23 @@ function Login() {
               />
             </div>
 
-            {message && <p className="login-message">{message}</p>}
+            {(message || error) && (
+              <p className="login-message">{message || error}</p>
+            )}
 
-            <button type="submit" className="login-button" disabled={loading}>
+            <button
+              type="submit"
+              className="login-button"
+              disabled={loading}
+            >
               {loading ? "SIGNING IN..." : "SIGN IN"}
             </button>
           </form>
 
           <div className="login-register">
             <p>
-              Don't have an account? <Link to="/register">Create Account</Link>
+              Don't have an account?{" "}
+              <Link to="/register">Create Account</Link>
             </p>
           </div>
         </section>

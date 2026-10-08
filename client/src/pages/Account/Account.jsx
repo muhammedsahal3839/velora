@@ -1,6 +1,8 @@
 
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import {
   UserRound,
   ShoppingBag,
@@ -9,13 +11,15 @@ import {
 } from "lucide-react";
 
 import Navbar from "../../components/Navbar";
+import { logoutUser } from "../../redux/authSlice";
+
 import "./Account.css";
 
 function Account() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const token = localStorage.getItem("token");
-  const username = localStorage.getItem("username");
+  const { token, username } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!token) {
@@ -23,12 +27,8 @@ function Account() {
     }
   }, [token, navigate]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("username");
-
-    window.dispatchEvent(new Event("authUpdated"));
-    window.dispatchEvent(new Event("cartUpdated"));
+  const handleLogout = async () => {
+    await dispatch(logoutUser()).unwrap();
 
     navigate("/", { replace: true });
   };
@@ -42,7 +42,9 @@ function Account() {
       <main className="account-page">
         <div className="account-heading">
           <span>YOUR VELORA ACCOUNT</span>
+
           <h1>My Account</h1>
+
           <p>
             Manage your account and explore your
             shopping journey.
@@ -57,7 +59,9 @@ function Account() {
 
             <div className="account-profile-info">
               <span>WELCOME BACK</span>
+
               <h2>{username || "VELORA Member"}</h2>
+
               <p>VELORA Member</p>
             </div>
           </section>
@@ -74,6 +78,7 @@ function Account() {
 
               <div className="account-action-text">
                 <h3>My Orders</h3>
+
                 <p>
                   View your order history and purchases.
                 </p>
@@ -93,6 +98,7 @@ function Account() {
 
               <div className="account-action-text">
                 <h3>Logout</h3>
+
                 <p>
                   Securely sign out of your account.
                 </p>

@@ -1,10 +1,26 @@
-import { useState } from "react";
+
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+
 import Navbar from "../../components/Navbar";
+
+import {
+  registerUser,
+  clearRegisterStatus,
+} from "../../redux/authSlice";
+
 import "./Register.css";
 
 function Register() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const {
+    registerLoading,
+    registerError,
+    registerSuccess,
+  } = useSelector((state) => state.auth);
 
   const [formData, setFormData] = useState({
     username: "",
@@ -12,60 +28,38 @@ function Register() {
     password: "",
   });
 
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
+  useEffect(() => {
+    dispatch(clearRegisterStatus());
+  }, [dispatch]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    setFormData({
-      ...formData,
+    setFormData((previous) => ({
+      ...previous,
       [name]: value,
-    });
+    }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    setMessage("");
-    setLoading(true);
+    if (registerLoading || registerSuccess) {
+      return;
+    }
+
+    dispatch(clearRegisterStatus());
 
     try {
-      const response = await fetch(
-        "http://127.0.0.1:8000/auth/register/",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      await dispatch(registerUser(formData)).unwrap();
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(
-          data.error ||
-            data.detail ||
-            "Unable to create account."
-        );
-        return;
-      }
-
-      setMessage("Account created successfully.");
-
+      // Existing success message stays visible
+      // before navigating to Login.
       setTimeout(() => {
         navigate("/login");
       }, 1000);
     } catch (error) {
-      console.error("Register error:", error);
-
-      setMessage(
-        "Unable to create account. Please try again."
-      );
-    } finally {
-      setLoading(false);
+      console.error("Registration failed:", error);
     }
   };
 
@@ -139,20 +133,29 @@ function Register() {
               />
             </div>
 
-            {message && (
+            {registerError && (
               <p className="register-message">
-                {message}
+                {registerError}
+              </p>
+            )}
+
+            {registerSuccess && (
+              <p className="register-message">
+                Account created successfully.
+                Redirecting to login...
               </p>
             )}
 
             <button
               type="submit"
               className="register-button"
-              disabled={loading}
+              disabled={registerLoading || registerSuccess}
             >
-              {loading
+              {registerLoading
                 ? "CREATING ACCOUNT..."
-                : "CREATE ACCOUNT"}
+                : registerSuccess
+                  ? "ACCOUNT CREATED"
+                  : "CREATE ACCOUNT"}
             </button>
           </form>
 

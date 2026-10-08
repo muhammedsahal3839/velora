@@ -1,143 +1,92 @@
-import { useEffect, useState } from "react";
+
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { Trash2, ShoppingBag, Minus, Plus } from "lucide-react";
 
 import Navbar from "../../components/Navbar";
+import {
+  fetchCart,
+  updateCartQuantity,
+  removeCartItem,
+  clearCart,
+} from "../../redux/cartSlice";
+
 import "./Cart.css";
 
 function Cart() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const [cart, setCart] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [message, setMessage] = useState("");
-  const [updatingItem, setUpdatingItem] = useState(null);
-
-  const token = localStorage.getItem("token");
+  const {
+    cart,
+    loading,
+    updatingItem,
+    error,
+    authStatus,
+  } = useSelector((state) => state.cart);
 
   // =========================
   // FETCH CART
   // =========================
 
-  const fetchCart = async () => {
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
     if (!token) {
+      dispatch(clearCart());
       navigate("/login");
       return;
     }
 
-    try {
-      setLoading(true);
+    dispatch(fetchCart());
+  }, [dispatch, navigate]);
 
-      const response = await fetch("http://127.0.0.1:8000/cart/my-cart/", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (response.status === 401 || response.status === 403) {
-          localStorage.removeItem("token");
-          navigate("/login");
-          return;
-        }
-
-        throw new Error("Unable to load cart");
-      }
-
-      setCart(data);
-    } catch (error) {
-      console.error("Cart error:", error);
-      setMessage("Unable to load your cart.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  // =========================
+  // AUTHENTICATION CHECK
+  // =========================
 
   useEffect(() => {
-    fetchCart();
-  }, []);
+    if (authStatus === 401 || authStatus === 403) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+
+      dispatch(clearCart());
+
+      window.dispatchEvent(new Event("authUpdated"));
+      window.dispatchEvent(new Event("cartUpdated"));
+
+      navigate("/login");
+    }
+  }, [authStatus, dispatch, navigate]);
 
   // =========================
   // UPDATE QUANTITY
   // =========================
 
-  const handleQuantityChange = async (itemId, newQuantity) => {
+  const handleQuantityChange = (itemId, newQuantity) => {
     if (newQuantity < 1 || updatingItem !== null) {
       return;
     }
 
-    try {
-      setUpdatingItem(itemId);
-      setMessage("");
-
-      const response = await fetch(
-        `http://127.0.0.1:8000/cart/update/${itemId}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            quantity: newQuantity,
-          }),
-        },
-      );
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setMessage(data.error || "Unable to update quantity.");
-        return;
-      }
-
-      setCart(data.cart);
-
-      window.dispatchEvent(new Event("cartUpdated"));
-    } catch (error) {
-      console.error("Quantity update error:", error);
-      setMessage("Unable to update quantity.");
-    } finally {
-      setUpdatingItem(null);
-    }
+    dispatch(
+      updateCartQuantity({
+        itemId,
+        quantity: newQuantity,
+      })
+    );
   };
 
   // =========================
   // REMOVE ITEM
   // =========================
 
-  const handleRemove = async (itemId) => {
-    if (updatingItem !== null) return;
-
-    try {
-      setUpdatingItem(itemId);
-      setMessage("");
-
-      const response = await fetch(
-        `http://127.0.0.1:8000/cart/remove/${itemId}/`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Unable to remove item");
-      }
-
-      await fetchCart();
-
-      window.dispatchEvent(new Event("cartUpdated"));
-    } catch (error) {
-      console.error("Remove item error:", error);
-      setMessage("Unable to remove item.");
-    } finally {
-      setUpdatingItem(null);
+  const handleRemove = (itemId) => {
+    if (updatingItem !== null) {
+      return;
     }
+
+    dispatch(removeCartItem(itemId));
   };
 
   // =========================
@@ -148,6 +97,7 @@ function Cart() {
 
   const subtotal = cartItems.reduce((total, item) => {
     const price = Number(item.product?.price || 0);
+
     return total + price * item.quantity;
   }, 0);
 
@@ -180,11 +130,17 @@ function Cart() {
       <main className="cart-page">
         <div className="cart-heading">
           <span>YOUR SELECTION</span>
+
           <h1>Shopping Bag</h1>
-          <p>Review your selected pieces before proceeding to checkout.</p>
+
+          <p>
+            Review your selected pieces before proceeding to checkout.
+          </p>
         </div>
 
-        {message && <p className="cart-page-message">{message}</p>}
+        {error && (
+          <p className="cart-page-message">{error}</p>
+        )}
 
         {cartItems.length === 0 ? (
           <section className="empty-cart">
@@ -196,12 +152,16 @@ function Cart() {
               Discover the VELORA collection and find something made for you.
             </p>
 
-            <button type="button" onClick={() => navigate("/products")}>
+            <button
+              type="button"
+              onClick={() => navigate("/products")}
+            >
               CONTINUE SHOPPING
             </button>
           </section>
         ) : (
           <section className="cart-layout">
+
             {/* CART ITEMS */}
 
             <div className="cart-items">
@@ -214,9 +174,14 @@ function Cart() {
                   <div className="cart-item" key={item.id}>
                     <div
                       className="cart-item-image"
-                      onClick={() => navigate(`/products/${product.id}`)}
+                      onClick={() =>
+                        navigate(`/products/${product.id}`)
+                      }
                     >
-                      <img src={product.main_image} alt={product.name} />
+                      <img
+                        src={product.main_image}
+                        alt={product.name}
+                      />
                     </div>
 
                     <div className="cart-item-info">
@@ -240,9 +205,12 @@ function Cart() {
                         </button>
                       </div>
 
-                      <p className="cart-item-price">₹{formatPrice(price)}</p>
+                      <p className="cart-item-price">
+                        ₹{formatPrice(price)}
+                      </p>
 
                       <div className="cart-item-bottom">
+
                         {/* QUANTITY */}
 
                         <div className="cart-quantity">
@@ -252,10 +220,14 @@ function Cart() {
                             <button
                               type="button"
                               disabled={
-                                item.quantity <= 1 || updatingItem !== null
+                                item.quantity <= 1 ||
+                                updatingItem !== null
                               }
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity - 1)
+                                handleQuantityChange(
+                                  item.id,
+                                  item.quantity - 1
+                                )
                               }
                             >
                               <Minus size={14} />
@@ -270,7 +242,10 @@ function Cart() {
                                 updatingItem !== null
                               }
                               onClick={() =>
-                                handleQuantityChange(item.id, item.quantity + 1)
+                                handleQuantityChange(
+                                  item.id,
+                                  item.quantity + 1
+                                )
                               }
                             >
                               <Plus size={14} />
@@ -283,7 +258,9 @@ function Cart() {
                         <div className="cart-item-total">
                           <span>Item Total</span>
 
-                          <strong>₹{formatPrice(itemTotal)}</strong>
+                          <strong>
+                            ₹{formatPrice(itemTotal)}
+                          </strong>
                         </div>
                       </div>
                     </div>
@@ -295,7 +272,9 @@ function Cart() {
             {/* ORDER SUMMARY */}
 
             <aside className="order-summary">
-              <span className="summary-label">ORDER SUMMARY</span>
+              <span className="summary-label">
+                ORDER SUMMARY
+              </span>
 
               <h2>Your Total</h2>
 
@@ -311,7 +290,10 @@ function Cart() {
 
               <div className="summary-total">
                 <span>Total</span>
-                <strong>₹{formatPrice(total)}</strong>
+
+                <strong>
+                  ₹{formatPrice(total)}
+                </strong>
               </div>
 
               <button
@@ -321,7 +303,7 @@ function Cart() {
               >
                 PROCEED TO CHECKOUT
               </button>
-              
+
               <button
                 type="button"
                 className="continue-shopping"
