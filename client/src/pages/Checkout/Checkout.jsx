@@ -84,7 +84,7 @@ function Checkout() {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/cart/my-cart/",
+          "https://velora-hjso.onrender.com/cart/my-cart/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -192,7 +192,7 @@ function Checkout() {
       setError("");
 
       const response = await fetch(
-        "http://127.0.0.1:8000/orders/checkout/",
+        "https://velora-hjso.onrender.com/orders/checkout/",
         {
           method: "POST",
           headers: {

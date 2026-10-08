@@ -9,7 +9,7 @@ function FeaturedProducts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/products/")
+    fetch("https://velora-hjso.onrender.com/products/")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch products");

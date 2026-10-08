@@ -42,7 +42,7 @@ function ProductDetail() {
   const fetchProduct = async () => {
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/products/${id}/`
+        `https://velora-hjso.onrender.com/products/${id}/`
       );
 
       if (!response.ok) {
@@ -92,7 +92,7 @@ function ProductDetail() {
       setCartMessage("");
 
       const response = await fetch(
-        "http://127.0.0.1:8000/cart/",
+        "https://velora-hjso.onrender.com/cart/",
         {
           method: "POST",
 
@@ -212,7 +212,7 @@ function ProductDetail() {
       setSubmittingReview(true);
 
       const response = await fetch(
-        `http://127.0.0.1:8000/products/${id}/reviews/`,
+        `https://velora-hjso.onrender.com/products/${id}/reviews/`,
         {
           method: "POST",
 

@@ -1,7 +1,7 @@
 
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const API_URL = "http://127.0.0.1:8000";
+const API_URL = "https://velora-hjso.onrender.com";
 
 const getHeaders = (includeContentType = false) => {
   const token = localStorage.getItem("token");

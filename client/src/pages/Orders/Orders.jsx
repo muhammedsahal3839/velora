@@ -54,7 +54,7 @@ function Orders() {
 
       try {
         const response = await fetch(
-          "http://127.0.0.1:8000/orders/",
+          "https://velora-hjso.onrender.com/orders/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -109,7 +109,7 @@ function Orders() {
       setSuccess("");
 
       const response = await fetch(
-        `http://127.0.0.1:8000/orders/cancel/${cancelOrderId}/`,
+        `https://velora-hjso.onrender.com/orders/cancel/${cancelOrderId}/`,
         {
           method: "PATCH",
           headers: {
