@@ -1,0 +1,297 @@
+.about-page {
+  min-height: 100vh;
+  background-color: #ffffff;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.about-hero {
+  padding: 90px 6%;
+  background-color: #f8f3ea;
+  text-align: center;
+}
+
+.about-hero > span {
+  display: block;
+  margin-bottom: 14px;
+  color: #b8925a;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.about-hero h1 {
+  max-width: 760px;
+  margin: 0 auto 22px;
+  color: #2b1d18;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 52px;
+  font-weight: 400;
+  line-height: 1.15;
+}
+
+.about-hero p {
+  max-width: 620px;
+  margin: 0 auto;
+  color: #706560;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+/* =========================
+   BRAND STORY
+========================= */
+
+.about-story {
+  width: 88%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 90px 0;
+
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 90px;
+  align-items: start;
+}
+
+.about-story-title span {
+  display: block;
+  margin-bottom: 12px;
+  color: #b8925a;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.about-story-title h2 {
+  color: #2b1d18;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.about-story-content {
+  padding-top: 4px;
+}
+
+.about-story-content p {
+  margin-bottom: 22px;
+  color: #6e635e;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+/* =========================
+   VALUES
+========================= */
+
+.about-values {
+  padding: 85px 6%;
+  background-color: #2b1d18;
+}
+
+.about-values-heading {
+  margin-bottom: 50px;
+  text-align: center;
+}
+
+.about-values-heading span {
+  display: block;
+  margin-bottom: 11px;
+  color: #b8925a;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.about-values-heading h2 {
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.about-values-grid {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
+}
+
+.about-value-card {
+  padding: 42px 32px;
+  border: 1px solid rgba(184, 146, 90, 0.35);
+  text-align: center;
+}
+
+.about-value-card svg {
+  margin-bottom: 22px;
+  color: #b8925a;
+}
+
+.about-value-card h3 {
+  margin-bottom: 14px;
+  color: #ffffff;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 21px;
+  font-weight: 400;
+}
+
+.about-value-card p {
+  color: #cfc5bd;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* =========================
+   SOCIAL MEDIA
+========================= */
+
+.about-social {
+  padding: 90px 6% 100px;
+  background-color: #f8f3ea;
+  text-align: center;
+}
+
+.about-social > span {
+  display: block;
+  margin-bottom: 11px;
+  color: #b8925a;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.about-social h2 {
+  margin-bottom: 15px;
+  color: #2b1d18;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 40px;
+  font-weight: 400;
+}
+
+.about-social > p {
+  max-width: 520px;
+  margin: 0 auto 35px;
+  color: #716762;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.social-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.social-link {
+  min-width: 155px;
+  padding: 14px 20px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  border: 1px solid #2b1d18;
+  background-color: transparent;
+  color: #2b1d18;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  border-color: #2b1d18;
+  background-color: #2b1d18;
+  color: #ffffff;
+}
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 900px) {
+  .about-hero {
+    padding: 70px 5%;
+  }
+
+  .about-hero h1 {
+    font-size: 44px;
+  }
+
+  .about-story {
+    width: 90%;
+    padding: 70px 0;
+    grid-template-columns: 1fr;
+    gap: 35px;
+  }
+
+  .about-values-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  .about-hero {
+    padding: 55px 5%;
+  }
+
+  .about-hero h1 {
+    font-size: 36px;
+  }
+
+  .about-story {
+    width: 92%;
+    padding: 55px 0;
+  }
+
+  .about-story-title h2 {
+    font-size: 32px;
+  }
+
+  .about-values {
+    padding: 60px 5%;
+  }
+
+  .about-values-heading h2 {
+    font-size: 32px;
+  }
+
+  .about-value-card {
+    padding: 35px 24px;
+  }
+
+  .about-social {
+    padding: 60px 5% 70px;
+  }
+
+  .about-social h2 {
+    font-size: 32px;
+  }
+
+  .social-links {
+    flex-direction: column;
+  }
+
+  .social-link {
+    width: 100%;
+    max-width: 300px;
+  }
+}

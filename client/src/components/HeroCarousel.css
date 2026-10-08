@@ -1,0 +1,357 @@
+/* =========================
+   VELORA HERO CAROUSEL
+========================= */
+
+.hero-carousel {
+  position: relative;
+  width: 100%;
+  height: 540px;
+  overflow: hidden;
+  background-color: #f8f3ea;
+}
+
+
+/* =========================
+   SLIDES
+========================= */
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease;
+}
+
+.hero-slide.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+
+/* =========================
+   HERO IMAGE
+========================= */
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+}
+.hero-image-1 {
+  object-position: center 35%;
+}
+
+.hero-image-2 {
+  object-position: center 35%;
+}
+
+.hero-image-3 {
+  object-position: center 30%;
+}
+
+/* =========================
+   DARK GRADIENT OVERLAY
+========================= */
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    90deg,
+    rgba(43, 29, 24, 0.68) 0%,
+    rgba(43, 29, 24, 0.4) 35%,
+    rgba(43, 29, 24, 0.12) 60%,
+    rgba(43, 29, 24, 0.02) 100%
+  );
+}
+
+
+/* =========================
+   HERO CONTENT
+========================= */
+
+.hero-content {
+  position: absolute;
+  top: 50%;
+  left: 8%;
+
+  transform: translateY(-50%);
+
+  width: 500px;
+  max-width: 75%;
+
+  color: #ffffff;
+  z-index: 2;
+}
+
+
+/* VELORA */
+
+.hero-brand {
+  margin-bottom: 14px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 14px;
+  letter-spacing: 7px;
+
+  color: #f8f3ea;
+}
+
+
+/* NEW COLLECTION ETC */
+
+.hero-label {
+  display: block;
+  margin-bottom: 12px;
+
+  color: #d9bc8b;
+
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+
+/* MAIN HEADING */
+
+.hero-content h1 {
+  max-width: 500px;
+  margin-bottom: 16px;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(38px, 4vw, 58px);
+  font-weight: 400;
+  line-height: 1.08;
+}
+
+
+/* DESCRIPTION */
+
+.hero-description {
+  max-width: 430px;
+  margin-bottom: 26px;
+
+  font-size: 15px;
+  line-height: 1.6;
+
+  color: rgba(255, 255, 255, 0.88);
+}
+
+
+/* =========================
+   SHOP BUTTON
+========================= */
+
+.hero-shop-button {
+  padding: 13px 25px;
+
+  border: 1px solid #b8925a;
+
+  background-color: #b8925a;
+  color: #ffffff;
+
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 2px;
+
+  transition: all 0.3s ease;
+}
+
+.hero-shop-button:hover {
+  background-color: transparent;
+  color: #ffffff;
+}
+
+
+/* =========================
+   CAROUSEL ARROWS
+========================= */
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+
+  transform: translateY(-50%);
+
+  z-index: 5;
+
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 0;
+
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+
+  background-color: rgba(43, 29, 24, 0.25);
+  color: #ffffff;
+
+  transition: all 0.3s ease;
+}
+
+.hero-arrow:hover {
+  background-color: #b8925a;
+  border-color: #b8925a;
+}
+
+.hero-arrow-left {
+  left: 24px;
+}
+
+.hero-arrow-right {
+  right: 24px;
+}
+
+
+/* =========================
+   CAROUSEL DOTS
+========================= */
+
+.hero-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  z-index: 5;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.hero-dot {
+  width: 9px;
+  height: 9px;
+
+  padding: 0;
+
+  border: 1px solid #ffffff;
+  border-radius: 50%;
+
+  background-color: transparent;
+
+  transition: all 0.3s ease;
+}
+
+.hero-dot.active {
+  width: 24px;
+  border-radius: 10px;
+
+  background-color: #ffffff;
+}
+
+
+/* =========================
+   TABLET
+========================= */
+
+@media (max-width: 992px) {
+  .hero-carousel {
+    height: 500px;
+  }
+
+  .hero-content {
+    left: 8%;
+    width: 450px;
+  }
+
+  .hero-content h1 {
+    font-size: 46px;
+  }
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 768px) {
+  .hero-carousel {
+    height: 460px;
+  }
+
+  .hero-content {
+    left: 8%;
+    width: auto;
+    max-width: 78%;
+  }
+
+  .hero-brand {
+    font-size: 12px;
+    letter-spacing: 5px;
+  }
+
+  .hero-label {
+    font-size: 10px;
+    letter-spacing: 2px;
+  }
+
+  .hero-content h1 {
+    font-size: 38px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .hero-shop-button {
+    padding: 12px 20px;
+  }
+
+  .hero-arrow {
+    width: 36px;
+    height: 36px;
+  }
+
+  .hero-arrow-left {
+    left: 10px;
+  }
+
+  .hero-arrow-right {
+    right: 10px;
+  }
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 480px) {
+  .hero-carousel {
+    height: 420px;
+  }
+
+  .hero-content {
+    left: 9%;
+    max-width: 76%;
+  }
+
+  .hero-content h1 {
+    font-size: 32px;
+  }
+
+  .hero-description {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+
+  .hero-arrow {
+    width: 32px;
+    height: 32px;
+  }
+
+  .hero-dots {
+    bottom: 15px;
+  }
+}

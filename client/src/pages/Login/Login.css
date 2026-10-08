@@ -1,0 +1,209 @@
+.login-page {
+  min-height: calc(100vh - 70px);
+  padding: 70px 20px 90px;
+
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  background-color: #f8f3ea;
+}
+
+/* =========================
+   LOGIN CONTAINER
+========================= */
+
+.login-container {
+  width: 100%;
+  max-width: 480px;
+
+  padding: 45px 42px;
+
+  background-color: #ffffff;
+  border: 1px solid #e4ddd5;
+}
+
+/* =========================
+   HEADING
+========================= */
+
+.login-heading {
+  margin-bottom: 35px;
+  text-align: center;
+}
+
+.login-heading span {
+  display: block;
+
+  margin-bottom: 10px;
+
+  color: #b8925a;
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+}
+
+.login-heading h1 {
+  margin-bottom: 14px;
+
+  color: #2b1d18;
+
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 34px;
+  font-weight: 400;
+}
+
+.login-heading p {
+  max-width: 350px;
+  margin: 0 auto;
+
+  color: #766b66;
+
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* =========================
+   FORM
+========================= */
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+}
+
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.login-form-group label {
+  color: #2b1d18;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.login-form-group input {
+  width: 100%;
+  height: 48px;
+
+  padding: 0 14px;
+
+  border: 1px solid #d8cec3;
+  outline: none;
+
+  background-color: #ffffff;
+  color: #242424;
+
+  font-family: inherit;
+  font-size: 14px;
+
+  transition: border-color 0.25s ease;
+}
+
+.login-form-group input:focus {
+  border-color: #b8925a;
+}
+
+.login-form-group input::placeholder {
+  color: #aaa09a;
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+.login-message {
+  padding: 11px 13px;
+
+  border-left: 3px solid #b8925a;
+
+  background-color: #f8f3ea;
+  color: #655b56;
+
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* =========================
+   LOGIN BUTTON
+========================= */
+
+.login-button {
+  width: 100%;
+
+  margin-top: 4px;
+  padding: 15px 20px;
+
+  border: 1px solid #2b1d18;
+
+  background-color: #2b1d18;
+  color: #ffffff;
+
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+
+  transition: all 0.3s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  border-color: #b8925a;
+  background-color: #b8925a;
+}
+
+.login-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+/* =========================
+   REGISTER LINK
+========================= */
+
+.login-register {
+  margin-top: 27px;
+  padding-top: 23px;
+
+  border-top: 1px solid #e4ddd5;
+
+  text-align: center;
+}
+
+.login-register p {
+  color: #766b66;
+  font-size: 12px;
+}
+
+.login-register a {
+  color: #2b1d18;
+  font-weight: 600;
+
+  transition: color 0.25s ease;
+}
+
+.login-register a:hover {
+  color: #b8925a;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 600px) {
+  .login-page {
+    padding: 45px 15px 65px;
+  }
+
+  .login-container {
+    padding: 35px 22px;
+  }
+
+  .login-heading h1 {
+    font-size: 29px;
+  }
+}
